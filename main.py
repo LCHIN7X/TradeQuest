@@ -1,5 +1,6 @@
 from flask import Flask
-from model import db
+from models import db
+from flask_login import LoginManager
 
 DATABASE_NAME = 'database.db'
 
@@ -12,7 +13,7 @@ def create_app():
     from user.views import views
     app.register_blueprint(views, url_prefix="/views")
 
-    db.init_app()
+    db.init_app(app)
 
     with app.app_context():
         db.create_all()
