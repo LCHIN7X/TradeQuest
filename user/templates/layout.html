@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    {% block favicon %} 
+    {% endblock %}
+    <title>{% block title %} Base {% endblock %}</title>
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-expand-lg bg-body-tertiary bg-primary-subtle"
+      id="navbar"
+    >
+      <div class="container-fluid">
+        
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            {% if current_user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link {% if current_page == 'home' %}active{% endif %}" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if current_page == 'home' %}active{% endif %}" href="#">Take Quiz</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Stock Trade</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Ask me Questions</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('views.logout')}}">Log Out</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{url_for('views.change_password')}}" class="nav-link {% if current_page == 'change_password' %}active{% endif %}">Change Password</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link {% if current_page == 'login' %}active{% endif %}" href="{{url_for('views.login')}}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if current_page == 'create_account' %}active{% endif %}" href="{{url_for('views.register')}}">Create Account</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Get flashed messages and display them -->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %} {% if category ==
+    'error' %}
+    <div class="alert alert-dismissible alert-danger show fade" role="alert">
+      {{message}}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% elif request.args.get('logout') %}
+    <div class="alert alert-dismissible alert-success show fade" role="alert">
+      Logged Out Successfully.
+      <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+    </div>
+    {% else %}
+    <div class="alert alert-dismissible alert-success show fade" role="alert">
+      {{message}}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endif %} {% endfor %} {% endif %} {% endwith %} 
+
+    {% block content %} 
+    {% endblock %}
+    {% block main %}
+    {% endblock %}
+    
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
