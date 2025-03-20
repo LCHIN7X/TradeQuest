@@ -1,0 +1,40 @@
+body {
+    background-image: url("https://cdnlearnblog.etmoney.com/wp-content/uploads/2023/02/investing-at-market-high-1.jpg");
+    background-size: cover;
+    background-color: #cccccc;
+   }
+
+body.buy-background {
+    background-image: url("https://www.learnfly.com/img/post_img/795537529_screenshot.107.jpg");
+    background-size: cover;
+    background-color: #cccccc;
+
+}
+
+body.recommend-background {
+    background-image: url("https://i.pinimg.com/736x/e7/46/e7/e746e741bae70a90dc51795b0a48508c.jpg");
+    background-size: cover;
+    background-color: #cccccc;
+
+}
+
+.header-white {
+    color: white;
+}
+
+body.history-background {
+    background-image: url("https://c8.alamy.com/comp/2B7YN72/stock-market-investment-trading-financial-coin-and-graph-chart-or-forex-for-analyze-profit-finance-business-trend-data-background-2B7YN72.jpg");
+    background-size: cover;
+    background-color: #cccccc;
+
+}
+
+body.trade-background {
+    background-image: url("https://www.fisdom.com/wp-content/uploads/2022/08/Shutterstock_2085892414.jpg");
+    background-size: cover;
+    background-color: #cccccc;
+
+}
+.header-white {
+    color: white;
+}
