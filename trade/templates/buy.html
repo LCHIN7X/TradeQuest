@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+
+{% block title %}
+Buy
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('trade.static', filename='style.css') }}">
+<body class="buy-background">
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Buy Stock</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('trade.buy') }}" method="post">
+                        <div class="form-group">
+                            <label for="inputText">Symbol</label>
+                            <hr>
+                            <input type="text" id="inputText" name="symbol" class="form-control" autocomplete="off" placeholder="Enter Stock Symbol" autofocus required>
+                        </div>
+                        <div class="form-group">
+                            <hr>
+                            <label for="inputNumber">Shares</label>
+                            <hr>
+                            <input type="number" id="inputNumber" name="shares" autocomplete="off" class="form-control" placeholder="Enter Number of Shares" min="1" required>
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Buy</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+{% endblock %}
