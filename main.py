@@ -13,6 +13,9 @@ def create_app():
     from user.views import views
     app.register_blueprint(views, url_prefix="/views")
 
+    from trade.views import trade
+    app.register_blueprint(trade, url_prefix="/trade")
+
     db.init_app(app)
 
     with app.app_context():
