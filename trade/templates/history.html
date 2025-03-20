@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% include "navbar.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+<link rel="stylesheet" href="{{ url_for('trade.static', filename='#') }}">
+<body class="history-background">
+    <div class="container text-center">
+        <h2>HISTORY</h2>
+        <p>Your transactions are: </p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Buy/Sell</th>
+                    <th>Stock Symbol</th>
+                    <th>Price at the time of transaction</th>
+                    <th>Total Shares dealt</th>
+                    <th>Date of transaction</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in historyy %}
+                    <tr>
+                        {% if stock.shares > 0 %}
+                            <td>Buy</td>
+                        {% else %}
+                            <td>Sell</td>
+                        {% endif %}
+                        <td>{{ stock.symbol }}</td>
+                        <td>RM {{ stock.price }}</td>
+                        <td>{{ stock.shares }}</td>
+                        <td>{{ stock.date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+</body>
