@@ -38,10 +38,7 @@
               <a class="nav-link {% if current_page == 'home' %}active{% endif %}" href="#">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {% if current_page == 'home' %}active{% endif %}" href="#">Take Quiz</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Stock Trade</a>
+              <a class="nav-link" href="{{url_for('trade.stocktrade')}}">Stock Trade</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Ask me Questions</a>

@@ -7,7 +7,7 @@ from .extra import lookup
 from datetime import date
 import requests
 from werkzeug.exceptions import default_exceptions
-from chatbot.chatbot import groq_chat,ChatGroq
+
 
 api_key = 'a74c1d6a9bfc48a096826ab16608dd72'
 if not api_key:
