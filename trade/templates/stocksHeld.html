@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% include "navbar.html" %}
+
+{% block title %}
+    Stocks Held
+{% endblock %}
+
+{% block main %}
+<link rel="stylesheet" href="{{ url_for('trade.static', filename='style.css') }}">
+<body class="trade-background">
+    <div class="container text-center">
+        
+        <h2 class="text-center mb-4 header-white" align="center">Stocks in hand</h2>
+        <p class="text-center mb-4 header-white" align="center">Your holdings are: </p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Stocks owned</th>
+                    <th>Company</th>
+                    <th>Number of shares</th>
+                    <th>Current price</th>
+                    <th>Total value of holdings</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock, details in portfolio.items() %}
+                    <tr>
+                        <td>{{ stock }}</td>
+                        <td>{{ details[3] }}</td>
+                        <td>{{ details[0] }}</td>
+                        <td>RM {{ "%.2f"|format(details[1]) }}</td>
+                        <td>RM {{ "%.2f"|format(details[2]) }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td>Balance:</td>
+                    <td colspan="3"></td>
+                    <td>RM {{ "%.2f"|format(cash) }}</td>
+                </tr>
+            </tbody>
+            <tfoot style="font-weight: bold" align="center">
+                <td>Total:</td>
+                <td colspan="3"></td>
+                <td>RM {{ "%.2f"|format(grandTotal) }}</td>
+            </tfoot>
+        </table>
+        
+    </div>
+{% endblock %}
+</body>
