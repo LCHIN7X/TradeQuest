@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% extends 'base.html' %} 
+{% block favicon %}
+<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('.static', filename='assets/favicons/apple-touch-icon.png')}}" />
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('.static',filename='assets/favicons/favicon-32x32.png') }}" />
+<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('.static',filename='assets/favicons/favicon-16x16.png') }}" />
+<link rel="manifest" href="{{url_for('.static', filename='assets/favicons/site.webmanifest')}}" />
+{% endblock %}
+{% block title %} Customize Your Profile {% endblock
+%} {% block content %}
+<div class="container">
+  <h1 class="text-center mt-2 mb-2">Customize Your Profile</h1>
+  <div class="text-center">
+    {% if current_profile_pic != 'default_pfp.png' %}
+      <img src="{{ url_for('.static', filename='assets/images/user_uploads/' + current_profile_pic) }}" alt="User Profile Picture" height="150"
+      class="pro-img rounded-circle">
+    {% else %}
+      <img src="{{ url_for('.static', filename='assets/images/default_pfp.png') }}" alt="Default Profile Pic" height="150" 
+      class="pro-img rounded-circle">
+    {% endif %}
+  </div>
+  <form method="POST" enctype="multipart/form-data">
+    <div class="form-group mt-4 mb-2">
+      {% if current_profile_pic == 'default_pfp.png' %}
+      <label for="profile_pic" class="form-label col-form-label-lg" >Upload a Profile Picture</label>
+      {% else %}
+      <label for="profile_pic" class="form-label">Change Profile Picture</label>
+      {% endif %}
+      <div class="input-group mb-3">
+        <input type="file" class="form-control" accept=".jpg, .png" name="profile_pic"/>
+      </div>
+    </div>
+    <div class="form-group mt-4 mb-2">
+      <label for="bio" class="form-label">Bio</label>
+      <div class="input-group">
+        <span class="input-group-text" for="bio">Update Bio</span>
+        <textarea class="form-control" for="bio" id="bio" name="bio" placeholder="Tell people about yourself..." cols="3" rows="4">{% if current_bio %}{{current_bio}}{% endif %}</textarea>
+      </div>
+      <div class="form-group mt-3">
+        <label for="username" class="form-label">Change Username</label>
+        <input type="text" name="username" id="username" class="form-control" value="{% if current_username %} {{current_username}} {% endif %}" >
+      </div>
+    </div>
+    <button class="btn btn-primary mt-2 mb-4" type="submit">Update Account Details</button>
+  </form>
+</div>
+{% endblock %}
+{% block js %}
+  <script src="{{ url_for('.static', filename='script.js') }}"></script>
+{% endblock %}

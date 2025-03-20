@@ -7,9 +7,14 @@ from email_validator import validate_email, EmailNotValidError
 from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
 from flask_login import login_user, login_required, logout_user, current_user
-
+from werkzeug.utils import secure_filename
+from PIL import Image
+import os
 
 views = Blueprint("views", __name__, template_folder="templates", static_folder="static")
+
+def file_is_valid(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'jpg', 'png', 'jpeg'}
 
 @views.route("/register", methods=["GET", "POST"])
 def register():
@@ -125,3 +130,65 @@ def change_password():
 
 
     return render_template('change_password.html',current_page='change_password')
+
+@views.route('/profile', methods=["GET", "POST"])
+@login_required
+def profile():
+    if request.method == "POST":
+        # Handle profile picture upload
+        if 'profile_pic' in request.files:
+            profile_pic = request.files['profile_pic']
+            
+            if profile_pic.filename != "":
+                if not file_is_valid(profile_pic.filename):
+                    flash("Invalid File Type: Only .jpg, .jpeg, and .png files are allowed.", category="error")
+                else:
+                    cwd = os.getcwd()
+                    upload_folder = os.path.join(cwd, "user/static/assets/images/user_uploads")
+                    os.makedirs(upload_folder, exist_ok=True)
+
+                    previous_profile_pic = current_user.profile_pic
+
+                    # Delete old profile picture if it's not the default
+                    if previous_profile_pic and previous_profile_pic != "default_pfp.png":
+                        old_pic_path = os.path.join(upload_folder, previous_profile_pic)
+                        if os.path.exists(old_pic_path):
+                            os.remove(old_pic_path)
+
+                    filename = secure_filename(profile_pic.filename)
+                    img_path = os.path.join(upload_folder, filename)
+
+                    # Resize image before saving
+                    img_size = (100, 100)
+                    img = Image.open(profile_pic)
+                    img.thumbnail(img_size)
+                    img.save(img_path)
+
+                    current_user.profile_pic = filename
+                    db.session.commit()
+                    flash("Profile picture successfully updated!", category='success')
+
+        # Handle bio update
+        new_bio = request.form.get('bio')
+        if new_bio is not None and new_bio.strip() != current_user.bio:
+            current_user.bio = new_bio.strip() if new_bio.strip() else None
+            db.session.commit()
+            flash("Bio successfully updated!", category='success')
+            return redirect(url_for('views.profile'))
+
+        # Handle username change
+        new_username = request.form.get("username").strip()
+        if new_username and new_username != current_user.username:
+            if User.query.filter_by(username=new_username).first():
+                flash("Oops! Username already taken. Please enter a different username.", category="error")
+            else:
+                current_user.username = new_username
+                db.session.commit()
+                flash("Username successfully changed!", category='success')
+                return redirect(url_for('views.profile'))
+
+    return render_template('profile.html',
+                           current_page="profile",
+                           current_profile_pic=current_user.profile_pic,
+                           current_bio=current_user.bio,
+                           current_username=current_user.username)

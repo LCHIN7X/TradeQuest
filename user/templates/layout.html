@@ -43,6 +43,13 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Ask me Questions</a>
             </li>
+            <li class="nav-item d-flex align-self-center justify-content-end">
+              <a
+                href="{{url_for('views.profile')}}"
+                class="nav-link {% if current_page == 'profile' %}active{% endif %}"
+                >Customize Profile</a
+              >
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('views.logout')}}">Log Out</a>
             </li>
