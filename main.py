@@ -1,12 +1,14 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, g
 from models import db
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
+
 
 DATABASE_NAME = 'database.db'
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = "TRADEQUEST"
+    app.config["UPLOADED_PHOTOS_DEST"] = "static/images"
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DATABASE_NAME}"
 
     from user.models import User
@@ -15,6 +17,9 @@ def create_app():
 
     from trade.views import trade
     app.register_blueprint(trade, url_prefix="/trade")
+
+    from ranking.views import rank
+    app.register_blueprint(rank, url_prefix="/rank")
 
     db.init_app(app)
 
@@ -33,9 +38,16 @@ def create_app():
     def home():
         return render_template('home.html')
 
+    @app.context_processor
+    def inject_profile_pic():
+        if current_user.is_authenticated:
+            return dict(current_profile_pic=current_user.profile_pic)  # Adjust based on your User model
+        return dict(current_profile_pic=None)  # Default if no user is logged in
+    
+
+
     return app
 
 if __name__ == "__main__":
     app = create_app()
     app.run(debug=True)
-

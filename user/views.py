@@ -144,7 +144,7 @@ def profile():
                     flash("Invalid File Type: Only .jpg, .jpeg, and .png files are allowed.", category="error")
                 else:
                     cwd = os.getcwd()
-                    upload_folder = os.path.join(cwd, "user/static/assets/images/user_uploads")
+                    upload_folder = os.path.join(cwd, "static/assets/images/user_uploads")
                     os.makedirs(upload_folder, exist_ok=True)
 
                     previous_profile_pic = current_user.profile_pic
