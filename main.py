@@ -21,6 +21,9 @@ def create_app():
     from ranking.views import rank
     app.register_blueprint(rank, url_prefix="/rank")
 
+    from chatbot import chatbot
+    app.register_blueprint(chatbot, url_prefix="/chatbot")
+
     db.init_app(app)
 
     with app.app_context():
