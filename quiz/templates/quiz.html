@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% extends 'base.html' %} {% block title %} Quiz Time! {% endblock %} {% block
+content %}
+<div class="container mt-lg-5">
+  <div class="cash-div">
+    <i class="fa-solid fa-sack-dollar"></i>&nbsp;:&nbsp;&nbsp;RM <span id="cash-amount" data-cash="{{ cash }}">{{ cash }}</span>
+  </div>
+  <div class="quiz">
+    <div class="quiz-container" id="quiz-container-el">
+      <div class="typewriter-container">
+        <div class="typewriter-text">
+          Think you know finances? Take this quiz...
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary mt-4 mb-4 text-center"
+        id="start-quiz-btn-el"
+      >
+        Start The Quiz!
+      </button>
+    </div>
+    <div id="quiz-answer-container-el" class="mb-2 ml-2 mr-2"></div>
+  </div>
+
+  <div class="button-container">
+    <button
+      id="next-question-btn-el"
+      class="btn btn-outline-primary mt-4 hidden"
+    >
+      Next Question
+    </button>
+  </div>
+
+    <div id="review-container-el" class="mt-4 hidden">
+      <h2>Review Your Answers</h2>
+      <div id="review-content-el"></div>
+      <button id="back-to-quiz-btn-el" class="btn btn-primary">
+        Back to Quiz
+      </button>
+    </div>
+  </div>
+
+{% endblock %} {% block js %}
+<script src="{{ url_for('.static', filename='script.js') }}"></script>
+{% endblock %}
