@@ -81,11 +81,7 @@ class ChatGroq:
                 recommendations[stock['company']] = "Strong Sell"
         return recommendations
 
-        
-        body = "\n\n".join(random.sample(sections, k=5))  # Selecting 5 random sections
-        essay = f"{intro}\n\n{body}"
-        return essay
-
+    
         
 
 

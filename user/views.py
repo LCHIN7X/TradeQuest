@@ -83,7 +83,7 @@ def login():
                 login_user(user_in_db, remember=True)
 
                 
-                return render_template('layout.html') #change after got home.html
+                return render_template('home.html') #change after got home.html
             
             # if password is incorrect, flash error message
             else:
@@ -102,6 +102,7 @@ def logout():
 
     flash("Logged Out Successfully.",category="success")
     return redirect(url_for('views.login',logout=True))
+
 
 
 # define route for changing password
@@ -138,7 +139,6 @@ def profile():
         # Handle profile picture upload
         if 'profile_pic' in request.files:
             profile_pic = request.files['profile_pic']
-            
             if profile_pic.filename != "":
                 if not file_is_valid(profile_pic.filename):
                     flash("Invalid File Type: Only .jpg, .jpeg, and .png files are allowed.", category="error")
@@ -148,8 +148,6 @@ def profile():
                     os.makedirs(upload_folder, exist_ok=True)
 
                     previous_profile_pic = current_user.profile_pic
-
-                    # Delete old profile picture if it's not the default
                     if previous_profile_pic and previous_profile_pic != "default_pfp.png":
                         old_pic_path = os.path.join(upload_folder, previous_profile_pic)
                         if os.path.exists(old_pic_path):
@@ -158,7 +156,6 @@ def profile():
                     filename = secure_filename(profile_pic.filename)
                     img_path = os.path.join(upload_folder, filename)
 
-                    # Resize image before saving
                     img_size = (100, 100)
                     img = Image.open(profile_pic)
                     img.thumbnail(img_size)
@@ -174,7 +171,6 @@ def profile():
             current_user.bio = new_bio.strip() if new_bio.strip() else None
             db.session.commit()
             flash("Bio successfully updated!", category='success')
-            return redirect(url_for('views.profile'))
 
         # Handle username change
         new_username = request.form.get("username").strip()
@@ -185,10 +181,17 @@ def profile():
                 current_user.username = new_username
                 db.session.commit()
                 flash("Username successfully changed!", category='success')
-                return redirect(url_for('views.profile'))
+
+        # Handle VIP status toggle
+        if "toggle_vip" in request.form:
+            current_user.is_vip = not current_user.is_vip
+            db.session.commit()
+            flash("VIP status updated!", category='success')
 
     return render_template('profile.html',
                            current_page="profile",
                            current_profile_pic=current_user.profile_pic,
                            current_bio=current_user.bio,
-                           current_username=current_user.username)
+                           current_username=current_user.username,
+                           is_vip=current_user.is_vip)
+

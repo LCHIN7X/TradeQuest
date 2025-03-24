@@ -8,8 +8,12 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(100), nullable=False)
     cash = db.Column(db.Float, default=1000.0)
     is_vip = db.Column(db.Boolean, default=False)
-    bio = db.Column(db.String(200),default=None)
-    profile_pic = db.Column(db.String(200),default="default_pfp.png")
+    bio = db.Column(db.String(200), default=None)
+    profile_pic = db.Column(db.String(200), default="default_pfp.png")
+
+    def get_is_vip(self):
+        return bool(self.is_vip)
+
 
 class History(db.Model):
     id = db.Column(db.Integer, primary_key=True)

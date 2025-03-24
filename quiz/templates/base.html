@@ -44,61 +44,75 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             {% if current_user.is_authenticated %}
-            <li class="nav-item">
-              <a
-                class="nav-link {% if current_page == 'home' %}active{% endif %}"
-                href="{{url_for('trade.home')}}"
-                >Home</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('lesson.lesson_page1')}}">Learn</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('quiz.quiz_page')}}">Take Quiz</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('chatbot.chat')}}">Ask me Questions</a>
-            </li>
+                    {% if current_user.is_vip %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if current_page == 'home' %}active{% endif %}" 
+                               href="{{ url_for('trade.home') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if current_page == 'quiz' %}active{% endif %}" 
+                               href="{{ url_for('quiz.quiz_page') }}">Take Quiz</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if current_page == 'stocktrade' %}active{% endif %}" 
+                               href="{{ url_for('trade.stocktrade') }}">Stock Trade</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if current_page == 'recommendations' %}active{% endif %}" 
+                               href="{{ url_for('trade.recommendations') }}">Stock Recommendations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if current_page == 'chat' %}active{% endif %}" 
+                               href="{{ url_for('chatbot.chat') }}">Ask me Questions</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </li>
+                    {% elif not current_user.is_vip %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if current_page == 'home' %}active{% endif %}" 
+                               href="{{ url_for('trade.home') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if current_page == 'stocktrade' %}active{% endif %}" 
+                               href="{{ url_for('trade.stocktrade') }}">Stock Trade</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </li>
+                    {% endif %}
 
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('trade.stocktrade')}}"
-                >Stock Trade</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('rank.ranking')}}">Leaderboard</a>
-            </li>+
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('views.logout')}}">Log Out</a>
-            </li>
-            <li class="nav-item">
-              <a
-                href="{{url_for('views.change_password')}}"
-                class="nav-link {% if current_page == 'change_password' %}active{% endif %}"
-                >Change Password</a
-              >
-            </li>
-            {% else %}
-            <li class="nav-item">
-              <a
-                class="nav-link {% if current_page == 'login' %}active{% endif %}"
-                href="{{url_for('views.login')}}"
-                >Login</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link {% if current_page == 'create_account' %}active{% endif %}"
-                href="{{url_for('views.register')}}"
-                >Create Account</a
-              >
-            </li>
-            {% endif %}
-          </ul>
+                    <!-- Profile Picture on Right -->
+                    <li class="nav-item ms-auto">
+                        <a href="{{ url_for('views.profile') }}" class="nav-link">
+                            <img src="{{ url_for('static', filename='assets/images/user_uploads/' + current_profile_pic) }}" 
+                                 alt="User Profile Picture" height="40" class="pro-img rounded-circle">
+                        </a>
+                    </li>
+
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if current_page == 'login' %}active{% endif %}" 
+                           href="{{ url_for('views.login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if current_page == 'create_account' %}active{% endif %}" 
+                           href="{{ url_for('views.register') }}">Create Account</a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
-      </div>
-    </nav>
+    </div>
+</nav>
+
     <!-- Get flashed messages and display them -->
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %} {% if category ==

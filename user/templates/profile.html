@@ -41,8 +41,14 @@
         <input type="text" name="username" id="username" class="form-control" value="{% if current_username %} {{current_username}} {% endif %}" >
       </div>
     </div>
+    <button type="submit" name="toggle_vip" class="btn {% if is_vip %}btn-secondary{% else %}btn-warning{% endif %} mt-2">
+      {% if is_vip %}Revert to Normal Member{% else %}Upgrade to VIP{% endif %}
+    </button>
+    <p>
     <button class="btn btn-primary mt-2 mb-4" type="submit">Update Account Details</button>
     <button href="{{ url_for('views.logout') }}" class="btn btn-danger float-end mt-2">Log Out</button>
+  </p>
+  <p></p>
     <p class="text-center">
       Change your 
       <a href="{{ url_for('views.change_password') }}">password</a> here.

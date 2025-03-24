@@ -24,6 +24,12 @@ def create_app():
     from chatbot import chatbot
     app.register_blueprint(chatbot, url_prefix="/chatbot")
 
+    from quiz.views import quiz 
+    app.register_blueprint(quiz,url_prefix="/quiz")
+
+    from vip.views import vip 
+    app.register_blueprint(vip,url_prefix="/vip")
+
     db.init_app(app)
 
     with app.app_context():
