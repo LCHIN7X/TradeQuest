@@ -7,7 +7,7 @@ from .extra import lookup
 from datetime import date
 import requests
 from werkzeug.exceptions import default_exceptions
-
+from chatbot.chatbot import groq_chat,ChatGroq
 
 api_key = 'a74c1d6a9bfc48a096826ab16608dd72'
 if not api_key:
@@ -158,25 +158,21 @@ def recommendations():
         groq_instance = ChatGroq(groq_api_key=groq_api_key, model_name='llama3-8b-8192')
 
         # Fetch stock data
-        symbols = ["AAPL", "MSFT", "GOOGL", "FB", "ORCL", "INTC"]
-        stock_data = [lookup(symbol) for symbol in symbols if lookup(symbol)]  # Get valid stocks
+        stock_data = lookup(["AAPL", "MSFT", "GOOGL", "FB", "ORCL", "INTC"])
+        if not stock_data:
+            stock_data = []
 
-        # Debugging output
-        print(f"Fetched stock data: {stock_data}")
+        
 
         if stock_data:
-            names = [data['company'] for data in stock_data if 'company' in data]
-            prices = [data['price'] for data in stock_data if 'price' in data]
+            names = [data['company'] for data in stock_data]
+            prices = [data['price'] for data in stock_data]
 
-            # Ensure valid stock data structure
-            structured_stock_data = [
-                {"company": data["company"], "price": data["price"]}
-                for data in stock_data if "company" in data and "price" in data
-            ]
+            # recommendations using the instance method
+            recommendations = groq_instance.get_recommendations(stock_data)
 
-            # Generate recommendations
-            recommendations = groq_instance.get_recommendations(structured_stock_data)
-
+            print(f"Names: {names}")
+            print(f"Prices: {prices}")
             print(f"Recommendations: {recommendations}")
         else:
             names = ["No data available"]
@@ -184,11 +180,9 @@ def recommendations():
             recommendations = {"No data available": "No data available"}
 
         return render_template("recommendations.html", names=names, prices=prices, recommendations=recommendations)
-
     except Exception as e:
         print(f"An error occurred: {e}")
         return render_template("recommendations.html", names=["Error"], prices=["Error"], recommendations={"Error": "An error occurred while fetching data"})
-
 
 
 
