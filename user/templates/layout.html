@@ -26,11 +26,7 @@
                         <li class="nav-item">
                             <a class="nav-link {% if current_page == 'home' %}active{% endif %}" 
                                href="{{ url_for('trade.home') }}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if current_page == 'quiz' %}active{% endif %}" 
-                               href="{{ url_for('quiz.quiz_page') }}">Take Quiz</a>
-                        </li>
+                 
                         <li class="nav-item">
                             <a class="nav-link {% if current_page == 'stocktrade' %}active{% endif %}" 
                                href="{{ url_for('trade.stocktrade') }}">Stock Trade</a>
